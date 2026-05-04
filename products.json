@@ -1,0 +1,107 @@
+[
+  {
+    "name": "Banana 15 Pro",
+    "price": "$999",
+    "description": "Titanium. A17 Ripen chip. The ultimate professional experience.",
+    "image": "images/Bananaiphone1.webp",
+    "category": "Phone"
+  },
+  {
+    "name": "Banana 15",
+    "price": "$799",
+    "description": "A total powerhouse. Dynamic Peel. Freshly picked colors.",
+    "image": "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=800",
+    "category": "Phone"
+  },
+  {
+    "name": "Banana TV 4K",
+    "price": "$129",
+    "description": "The ultimate streaming box. Plug into any TV for a cinematic experience.",
+    "image": "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=800",
+    "category": "Home"
+  },
+  {
+    "name": "Banana Pods Pro",
+    "price": "$249",
+    "description": "Active Noise Cancellation. The best way to hear your Banana TV.",
+    "image": "https://images.unsplash.com/photo-1588423770674-f2855ee82af9?w=800",
+    "category": "Audio"
+  },
+  {
+    "name": "Banana Watch Ultra",
+    "price": "$799",
+    "description": "The most rugged and capable Banana Watch for extreme environments.",
+    "image": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800",
+    "category": "Watch"
+  },
+  {
+    "name": "Banana Book Pro",
+    "price": "$1999",
+    "description": "Mind-blowing power. Liquid Peel display for professionals.",
+    "image": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800",
+    "category": "Laptop"
+  },
+  {
+    "name": "Banana Pad Pro",
+    "price": "$799",
+    "description": "The ultimate tablet. Thin, light, and faster than a speeding leaf.",
+    "image": "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=800",
+    "category": "Tablet"
+  },
+  {
+    "name": "Banana 14",
+    "price": "$699",
+    "description": "Big and bigger. All-day battery life and incredible cameras.",
+    "image": "https://images.unsplash.com/photo-1611791484670-ce49578a9444?w=800",
+    "category": "Phone"
+  },
+  {
+    "name": "Banana Watch Series 9",
+    "price": "$399",
+    "description": "Smarter. Brighter. Mightier. The future of health on your wrist.",
+    "image": "https://images.unsplash.com/photo-1544117518-30dd5ff7a986?w=800",
+    "category": "Watch"
+  },
+  {
+    "name": "Banana Book Air",
+    "price": "$999",
+    "description": "Strikingly thin. Fast as lightning. Silent and powerful.",
+    "image": "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=800",
+    "category": "Laptop"
+  },
+  {
+    "name": "Banana Pad Air",
+    "price": "$599",
+    "description": "Serious power. Striking colors. Incredible value.",
+    "image": "https://images.unsplash.com/photo-1589739900266-43b2843f4c12?w=800",
+    "category": "Tablet"
+  },
+  {
+    "name": "Banana Pods Max",
+    "price": "$549",
+    "description": "High-fidelity audio. Cinematic sound. Maximum comfort.",
+    "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800",
+    "category": "Audio"
+  },
+  {
+    "name": "Banana HomePod",
+    "price": "$299",
+    "description": "Room-filling sound. The smartest speaker in the bunch.",
+    "image": "https://images.unsplash.com/photo-1589492477829-5e65395b66cc?w=800",
+    "category": "Home"
+  },
+  {
+    "name": "Banana Studio",
+    "price": "$1999",
+    "description": "Small footprint. Giant performance for creative pros.",
+    "image": "https://images.unsplash.com/photo-1594819047050-99def0704a46?w=800",
+    "category": "Desktop"
+  },
+  {
+    "name": "Banana SE",
+    "price": "$429",
+    "description": "Simple to use. Hard to beat. The most affordable Banana Phone.",
+    "image": "https://images.unsplash.com/photo-1556656793-062ff9878258?w=800",
+    "category": "Phone"
+  }
+]

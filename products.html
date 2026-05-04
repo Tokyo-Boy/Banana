@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store - Banana</title>
+    <style>
+        :root {
+            --nav-bg: rgba(255, 255, 255, 0.8);
+            --footer-bg: #f5f5f7;
+            --text-dark: #1d1d1f;
+            --text-gray: #86868b;
+            --accent-blue: #0071e3;
+            --card-bg: #ffffff;
+            --font-title: clamp(2.5rem, 5vw, 4rem);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, sans-serif; }
+        
+        body { 
+            background: #fbfbfd; 
+            color: var(--text-dark); 
+            line-height: 1.47059;
+            font-weight: 400;
+            letter-spacing: -0.022em;
+            overflow-x: hidden; 
+        }
+
+        /* PREMIUM NAVIGATION */
+        nav {
+            background: var(--nav-bg);
+            backdrop-filter: saturate(180%) blur(20px);
+            height: 44px;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .nav-content {
+            width: 100%;
+            max-width: 1024px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 22px;
+        }
+
+        .nav-logo { height: 18px; filter: brightness(0); transition: opacity 0.3s; }
+        .nav-logo:hover { opacity: 0.7; }
+
+        .nav-links { display: flex; list-style: none; gap: 30px; }
+        .nav-links a { 
+            color: var(--text-dark); 
+            text-decoration: none; 
+            font-size: 12px; 
+            font-weight: 400;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+        .nav-links a:hover { opacity: 1; }
+
+        /* STORE HEADER */
+        .store-header {
+            padding: 120px 20px 60px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .store-header h1 { 
+            font-size: var(--font-title); 
+            font-weight: 600; 
+            letter-spacing: -0.003em;
+            color: #1d1d1f;
+        }
+        .store-header h1 span { color: var(--text-gray); }
+        .store-header p { font-size: 1.5rem; margin-top: 20px; font-weight: 500; }
+
+        /* REFINED FILTERS */
+        .filter-wrapper {
+            position: sticky;
+            top: 44px;
+            background: rgba(251, 251, 253, 0.8);
+            backdrop-filter: blur(20px);
+            z-index: 2000;
+            padding: 20px 0;
+            margin-bottom: 40px;
+        }
+
+        .filter-container {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            padding: 0 20px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid #d2d2d7;
+            background: transparent;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            white-space: nowrap;
+        }
+
+        .filter-btn.active {
+            background: var(--text-dark);
+            color: #fff;
+            border-color: var(--text-dark);
+        }
+
+        /* PRODUCT GRID & CARDS */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 30px;
+            padding: 0 40px 100px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 28px;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.5s cubic-bezier(0.15, 0, 0.2, 1), box-shadow 0.5s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .card.visible { opacity: 1; transform: translateY(0); }
+        .card:hover { transform: scale(1.02); box-shadow: 0 20px 40px rgba(0,0,0,0.08); }
+
+        .card img { 
+            width: 100%; 
+            height: 300px; 
+            object-fit: contain; 
+            margin-bottom: 30px; 
+            transition: transform 0.5s ease;
+        }
+        .card:hover img { transform: scale(1.05); }
+
+        .card h3 { font-size: 28px; font-weight: 600; margin-bottom: 10px; }
+        .card p.desc { color: var(--text-gray); font-size: 17px; margin-bottom: 20px; }
+        .card .price-tag { font-weight: 400; font-size: 17px; margin-bottom: 25px; }
+
+        .btn-buy {
+            background: var(--accent-blue);
+            color: white;
+            padding: 8px 18px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 400;
+            display: inline-block;
+            align-self: flex-start;
+            transition: background 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-buy:hover { background: #0077ed; }
+
+        /* FLOATING CART */
+        .cart-bubble {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            background: #000;
+            color: white;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 9999;
+            text-decoration: none;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .cart-bubble:hover { transform: scale(1.1); }
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--accent-blue);
+            min-width: 24px;
+            height: 24px;
+            border-radius: 12px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 5px;
+            font-weight: bold;
+        }
+
+        /* FOOTER */
+        footer { background: var(--footer-bg); padding: 60px 22px; }
+        .footer-inner { max-width: 1024px; margin: 0 auto; }
+        .footer-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; }
+        .footer-links h4 { font-size: 12px; font-weight: 600; margin-bottom: 15px; }
+        .footer-links ul { list-style: none; }
+        .footer-links li { font-size: 12px; margin-bottom: 10px; color: var(--text-gray); cursor: pointer; }
+        .footer-links li:hover { color: var(--text-dark); text-decoration: underline; }
+
+        @media (max-width: 768px) {
+            .product-grid { grid-template-columns: 1fr; padding: 0 20px; }
+            .nav-links { display: none; }
+            .store-header { padding-top: 80px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-content">
+            <a href="index.html"><img src="images/banana.webp" alt="Banana" class="nav-logo"></a>
+            <ul class="nav-links">
+                <li><a href="products.html">Store</a></li>
+                <li><a href="#">Mac</a></li>
+                <li><a href="#">iPad</a></li>
+                <li><a href="#">iPhone</a></li>
+                <li><a href="#">Support</a></li>
+            </ul>
+            <div style="width: 18px;"></div> </div>
+    </nav>
+
+    <header class="store-header">
+        <h1>Store. <span>The best way to buy the products you love.</span></h1>
+        <p>Get a fresh start with our latest innovations.</p>
+    </header>
+
+    <div class="filter-wrapper">
+        <div class="filter-container">
+            <button class="filter-btn active" onclick="filterProducts('all', this)">All Models</button>
+            <button class="filter-btn" onclick="filterProducts('Phone', this)">iPhone</button>
+            <button class="filter-btn" onclick="filterProducts('Laptop', this)">MacBook</button>
+            <button class="filter-btn" onclick="filterProducts('Watch', this)">Apple Watch</button>
+        </div>
+    </div>
+
+    <section id="full-product-grid" class="product-grid">
+        </section>
+
+    <a href="checkout.html" class="cart-bubble" id="cart-bubble">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+        <span class="cart-count" id="cart-count">0</span>
+    </a>
+
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-links">
+                <div>
+                    <h4>Shop and Learn</h4>
+                    <ul><li>Store</li><li>Mac</li><li>iPad</li><li>iPhone</li><li>Watch</li></ul>
+                </div>
+                <div>
+                    <h4>Account</h4>
+                    <ul><li>Manage Your Banana ID</li><li>Banana Store Account</li><li>iCloud.com</li></ul>
+                </div>
+                <div>
+                    <h4>Banana Values</h4>
+                    <ul><li>Accessibility</li><li>Environment</li><li>Privacy</li><li>Supplier Responsibility</li></ul>
+                </div>
+                <div>
+                    <h4>About Banana</h4>
+                    <ul><li>Newsroom</li><li>Banana Leadership</li><li>Investors</li><li>Ethics & Compliance</li></ul>
+                </div>
+            </div>
+            <p style="margin-top: 40px; font-size: 12px; color: var(--text-gray);">Copyright © 2026 Banana Inc. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        let cart = JSON.parse(localStorage.getItem('bananaCart')) || [];
+        let productData = [];
+
+        function updateCartUI() {
+            const countLabel = document.getElementById('cart-count');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            countLabel.innerText = totalItems;
+            
+            const bubble = document.getElementById('cart-bubble');
+            bubble.style.transform = "scale(1.2)";
+            setTimeout(() => bubble.style.transform = "scale(1)", 200);
+        }
+
+        function addToCart(name, price, image) {
+            const existingItem = cart.find(item => item.name === name);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ name, price, image, quantity: 1 });
+            }
+            localStorage.setItem('bananaCart', JSON.stringify(cart));
+            updateCartUI();
+        }
+
+        async function loadAllProducts() {
+            try {
+                // Simulating a slight delay for "realism"
+                const response = await fetch('products.json');
+                productData = await response.json();
+                renderGrid(productData);
+            } catch (error) {
+                console.error("Fetch error:", error);
+            }
+        }
+
+        function renderGrid(list) {
+            const container = document.getElementById('full-product-grid');
+            container.innerHTML = list.map((item, index) => `
+                <div class="card" style="transition-delay: ${index * 100}ms">
+                    <img src="${item.image}" alt="${item.name}">
+                    <div>
+                        <h3>${item.name}</h3>
+                        <p class="desc">${item.description}</p>
+                        <p class="price-tag">From ${item.price}</p>
+                        <button onclick="addToCart('${item.name}', '${item.price}', '${item.image}')" class="btn-buy">Buy</button>
+                    </div>
+                </div>
+            `).join('');
+
+            // Trigger animation
+            setTimeout(() => {
+                document.querySelectorAll('.card').forEach(card => card.classList.add('visible'));
+            }, 100);
+        }
+
+        function filterProducts(category, btnElement) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
+
+            const filtered = category === 'all' ? productData : productData.filter(p => p.category === category);
+            
+            // Fade out current grid
+            const grid = document.getElementById('full-product-grid');
+            grid.style.opacity = '0';
+            
+            setTimeout(() => {
+                renderGrid(filtered);
+                grid.style.opacity = '1';
+            }, 300);
+        }
+
+        // Initialize
+        loadAllProducts();
+        updateCartUI();
+
+        // Intersection Observer for scroll reveal (on new items)
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        window.addEventListener('scroll', () => {
+            document.querySelectorAll('.card:not(.visible)').forEach(card => observer.observe(card));
+        });
+    </script>
+</body>
+</html>

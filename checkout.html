@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Banana</title>
+    <style>
+        :root {
+            --nav-bg: rgba(255, 255, 255, 0.8);
+            --text-dark: #1d1d1f;
+            --text-gray: #86868b;
+            --accent-blue: #0071e3;
+            --border-color: #d2d2d7;
+            --bg-gray: #f5f5f7;
+            --success-green: #28a745;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "SF Pro Display", -apple-system, sans-serif; }
+        body { background: #fff; color: var(--text-dark); letter-spacing: -0.01em; overflow-x: hidden; }
+
+        /* SIMPLE NAV */
+        nav {
+            height: 44px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--nav-bg);
+            backdrop-filter: blur(20px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav-logo { height: 18px; filter: brightness(0); cursor: pointer; }
+
+        .container {
+            max-width: 1000px;
+            margin: 60px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 80px;
+            transition: opacity 0.5s ease;
+        }
+
+        h1 { font-size: 40px; font-weight: 600; margin-bottom: 40px; grid-column: span 2; }
+
+        /* CHECKOUT FLOW */
+        .checkout-flow h2 { font-size: 24px; font-weight: 600; margin-bottom: 20px; padding-top: 30px; border-top: 1px solid var(--border-color); }
+        .checkout-flow h2:first-of-type { border-top: none; padding-top: 0; }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 17px;
+            margin-bottom: 15px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        input:focus { border-color: var(--accent-blue); }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+        .payment-option {
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .payment-option.active { border-color: var(--accent-blue); background: rgba(0,113,227,0.05); }
+
+        .banana-pay-btn {
+            background: #000;
+            color: #fff;
+            width: 100%;
+            padding: 15px;
+            border-radius: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 30px;
+            cursor: pointer;
+        }
+
+        /* SUMMARY */
+        .summary-card { position: sticky; top: 100px; }
+        .summary-item { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 17px; }
+        .summary-total { font-size: 24px; font-weight: 600; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-color); }
+
+        .order-item { display: flex; gap: 15px; margin-bottom: 20px; }
+        .order-item img { width: 60px; height: 60px; object-fit: contain; background: var(--bg-gray); border-radius: 8px; }
+        .order-item-info h4 { font-size: 14px; font-weight: 600; }
+        .order-item-info p { font-size: 14px; color: var(--text-gray); }
+
+        .place-order-btn {
+            background: var(--accent-blue);
+            color: white;
+            width: 100%;
+            padding: 18px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 17px;
+            border: none;
+            margin-top: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .place-order-btn:disabled { background: var(--text-gray); cursor: not-allowed; }
+
+        /* SUCCESS STATE */
+        #success-view {
+            display: none;
+            max-width: 600px;
+            margin: 100px auto;
+            text-align: center;
+            padding: 0 20px;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .success-icon {
+            font-size: 80px;
+            color: var(--success-green);
+            margin-bottom: 20px;
+        }
+
+        .order-number {
+            background: var(--bg-gray);
+            padding: 10px 20px;
+            border-radius: 8px;
+            display: inline-block;
+            margin: 20px 0;
+            font-family: monospace;
+            font-size: 18px;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 850px) {
+            .container { grid-template-columns: 1fr; gap: 40px; }
+            h1 { grid-column: span 1; }
+            .summary-card { position: static; order: -1; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <img src="images/banana.webp" alt="Banana" class="nav-logo" onclick="window.location.href='index.html'">
+    </nav>
+
+    <div class="container" id="checkout-view">
+        <h1>Checkout.</h1>
+
+        <div class="checkout-flow">
+            <div class="banana-pay-btn" onclick="processOrder()">
+                <span>Pay with</span> <span style="font-weight: 800; letter-spacing: -1px;">Banana Pay</span>
+            </div>
+            
+            <p style="text-align: center; color: var(--text-gray); margin-bottom: 30px;">— or pay with credit card —</p>
+
+            <h2>Shipping Address</h2>
+            <div class="grid-2">
+                <input type="text" id="fname" placeholder="First Name">
+                <input type="text" id="lname" placeholder="Last Name">
+            </div>
+            <input type="text" id="address" placeholder="Street Address">
+
+            <h2>Payment</h2>
+            <div class="payment-option active">
+                <div>
+                    <strong>Credit or Debit Card</strong>
+                    <p style="font-size: 12px; color: var(--text-gray);">Visa, Mastercard, Amex</p>
+                </div>
+                <span>💳</span>
+            </div>
+            <input type="text" placeholder="Card Number" maxlength="19">
+            <div class="grid-2">
+                <input type="text" placeholder="MM/YY">
+                <input type="text" placeholder="CVV">
+            </div>
+        </div>
+
+        <div class="summary-card">
+            <div id="bag-items"></div>
+            <div class="summary-total-box">
+                <div class="summary-item"><span>Subtotal</span><span id="subtotal">$0.00</span></div>
+                <div class="summary-item"><span>Shipping</span><span style="color: #28a745;">FREE</span></div>
+                <div class="summary-item"><span>Estimated Tax</span><span id="tax">$0.00</span></div>
+                <div class="summary-item summary-total"><span>Total</span><span id="total">$0.00</span></div>
+            </div>
+            <button class="place-order-btn" id="submit-btn" onclick="processOrder()">Place Your Order</button>
+        </div>
+    </div>
+
+    <div id="success-view">
+        <div class="success-icon">✓</div>
+        <h1 style="grid-column: auto;">Thank you.</h1>
+        <p style="font-size: 18px; color: var(--text-gray);">Your order has been placed successfully and is being prepared for shipment.</p>
+        <div class="order-number" id="final-order-id">ORDER #BN-000000</div>
+        
+        <div id="final-summary" style="text-align: left; margin-top: 40px; border-top: 1px solid #ddd; padding-top: 20px;">
+            </div>
+
+        <button class="place-order-btn" style="margin-top: 40px;" onclick="window.location.href='index.html'">Continue Shopping</button>
+    </div>
+
+    <script>
+        let cart = JSON.parse(localStorage.getItem('bananaCart')) || [];
+
+        function renderCheckout() {
+            const bagContainer = document.getElementById('bag-items');
+            if (cart.length === 0) {
+                window.location.href = 'products.html';
+                return;
+            }
+
+            let subtotal = 0;
+            bagContainer.innerHTML = cart.map(item => {
+                const priceNum = parseFloat(item.price.replace(/[^0-9.]/g, ''));
+                subtotal += (priceNum * item.quantity);
+                return `
+                    <div class="order-item">
+                        <img src="${item.image}" alt="${item.name}">
+                        <div class="order-item-info">
+                            <h4>${item.name}</h4>
+                            <p>Qty: ${item.quantity} • ${item.price}</p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            const tax = subtotal * 0.08;
+            const total = subtotal + tax;
+
+            document.getElementById('subtotal').innerText = formatCurrency(subtotal);
+            document.getElementById('tax').innerText = formatCurrency(tax);
+            document.getElementById('total').innerText = formatCurrency(total);
+        }
+
+        function formatCurrency(num) {
+            return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(num);
+        }
+
+        function processOrder() {
+            const btn = document.getElementById('submit-btn');
+            btn.innerText = "Authorizing...";
+            btn.disabled = true;
+
+            // Generate a random real-looking order number
+            const orderID = "BN-" + Math.floor(100000 + Math.random() * 900000);
+
+            setTimeout(() => {
+                // Hide Checkout, Show Success
+                document.getElementById('checkout-view').style.display = 'none';
+                const successView = document.getElementById('success-view');
+                successView.style.display = 'block';
+                
+                // Set Final Details
+                document.getElementById('final-order-id').innerText = "ORDER #" + orderID;
+                
+                // Move cart items to the final summary
+                const finalSummary = document.getElementById('final-summary');
+                const finalTotal = document.getElementById('total').innerText;
+                finalSummary.innerHTML = `
+                    <h3 style="margin-bottom: 15px;">Order Summary</h3>
+                    ${document.getElementById('bag-items').innerHTML}
+                    <div style="font-weight: bold; font-size: 20px; margin-top: 15px; border-top: 1px solid #eee; padding-top: 10px;">
+                        Total Paid: ${finalTotal}
+                    </div>
+                `;
+
+                // Clear cart
+                localStorage.removeItem('bananaCart');
+            }, 1800);
+        }
+
+        renderCheckout();
+    </script>
+</body>
+</html>
